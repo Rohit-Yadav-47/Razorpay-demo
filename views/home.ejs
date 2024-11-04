@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="page-layout">
+    <div class="main-content">
+      <div class="container">
+        <h1>Available Products</h1>
+        <div class="product-list">
+          <% products.forEach(product => { %>
+            <div class="product">
+              <h2><%= product.name %></h2>
+              <p>Price: ₹<%= product.price %></p>
+              <form action="/add-to-cart" method="POST">
+                <input type="hidden" name="productId" value="<%= product.id %>">
+                <button type="submit">Add to Cart</button>
+              </form>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="sidebar">
+      <div class="cart-sidebar">
+        <h2>Your Cart</h2>
+        <% if (cart && cart.length > 0) { %>
+          <div class="cart-items">
+            <% cart.forEach(item => { %>
+              <div class="cart-item">
+                <h3><%= item.name %></h3>
+                <p>Price: ₹<%= item.price %></p>
+              </div>
+            <% }) %>
+          </div>
+          <div class="cart-total">
+            <p>Total: ₹<%= cart.reduce((sum, item) => sum + item.price, 0) %></p>
+          </div>
+          <form action="/checkout" method="POST">
+            <button type="submit">Proceed to Checkout</button>
+          </form>
+        <% } else { %>
+          <div class="empty-cart">
+            <p>Your cart is empty</p>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
